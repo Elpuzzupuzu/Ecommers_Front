@@ -38,6 +38,7 @@ async function cargarProductos() {
                 <img class="producto-imagen" src="${product.img}" alt="">
                 <div class="producto-detalles">
                     <h3 class="producto-titulo">${product.name}</h3>
+                    <p class="producto-precio">${product.description}</p>
                     <p class="producto-precio">${product.price}</p>
                     <button class="producto-agregar">Agregar</button>
                 </div>
