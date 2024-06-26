@@ -15,8 +15,8 @@ async function getProductSummariesByCategory(categoryName) {
 }
 
 // Función para obtener todos los productos resumidos
-   async function getAllProductSummaries() {
-      try {
+async function getAllProductSummaries() {
+    try {
         const response = await fetch('http://localhost:8080/products/summary');
         if (!response.ok) {
             throw new Error(`Error: ${response.status}`);
@@ -29,41 +29,19 @@ async function getProductSummariesByCategory(categoryName) {
         return [];
     }
 }
-////-----------------//////
-
-
-
-
-
-
-
-
-
-
-///test 
 
 // Variables globales
-  // Paraonst productosEnCarrito = []; almacenar todos los productos obtenidos
- // Para almacenar productos agregados al carrito
-
-// Función para cargar todos los productos
-
-
-
-
-
-
-
-
-
-
-
-
-///test 
+const productos = [];
+let productoAgregado = [];  // Variable global para almacenar productos agregados al carrito
 
 // Función para cargar los productos después de que el DOM esté completamente cargado
-document.addEventListener("DOMContentLoaded", function() {
-    cargarProductos(); // Cargar productos iniciales
+document.addEventListener("DOMContentLoaded", async function() {
+    try {
+        await initializeProductos();
+        actualizarBotonesAgregar();
+    } catch (error) {
+        console.error('Error initializing products:', error);
+    }
 
     // Obtener todos los botones de categoría
     const botonesCategoria = document.querySelectorAll(".boton-categoria");
@@ -89,6 +67,9 @@ document.addEventListener("DOMContentLoaded", function() {
             } else {
                 await cargarProductosPorCategoria(categoryName);
             }
+
+            // Actualizar eventos de botones de agregar
+            actualizarBotonesAgregar();
         });
     });
 });
@@ -107,6 +88,7 @@ function actualizarTituloPrincipal(categoryName) {
 async function cargarTodosLosProductos() {
     try {
         const products = await getAllProductSummaries();
+        productos.splice(0, productos.length, ...products); // Limpiar y actualizar productos globales
         mostrarProductos(products);
     } catch (error) {
         console.error('Error cargando todos los productos:', error);
@@ -117,6 +99,7 @@ async function cargarTodosLosProductos() {
 async function cargarProductosPorCategoria(categoryName) {
     try {
         const products = await getProductSummariesByCategory(categoryName);
+        productos.splice(0, productos.length, ...products); // Limpiar y actualizar productos globales
         mostrarProductos(products);
     } catch (error) {
         console.error(`Error cargando productos por categoría ${categoryName}:`, error);
@@ -142,8 +125,7 @@ function mostrarProductos(products) {
         div.innerHTML = `
             <img class="producto-imagen" src="${product.img}" alt="">
             <div class="producto-detalles">
-
-                <p class="producto-id"> codigo: ${product.id}</p>
+                <p class="producto-id">Código: ${product.id}</p>
                 <h3 class="producto-titulo">${product.name}</h3>
                 <p class="producto-precio">${product.description}</p>
                 <p class="producto-precio">${product.price}</p>
@@ -152,82 +134,38 @@ function mostrarProductos(products) {
         `;
         contenedorProductos.appendChild(div);
     });
-
-    actualizarBotonesAgregar();
-    console.log(bonotonesAgregar);
 }
 
-// Función para cargar los productos iniciales (todos los productos)
-async function cargarProductos() {
-    await cargarTodosLosProductos();
+// Función para actualizar eventos de botones de agregar
+function actualizarBotonesAgregar() {
+    document.querySelectorAll('.producto-agregar').forEach(boton => {
+        boton.removeEventListener('click', agregarAlCarrito); // Limpiar eventos existentes
+        boton.addEventListener('click', agregarAlCarrito); // Agregar evento actualizado
+    });
 }
 
-
-
-
-/// en proceso de pruebas
-
-let bonotonesAgregar= document.querySelectorAll(".producto-agregar");
-console.log(bonotonesAgregar);
-
-
-function actualizarBotonesAgregar(){
-bonotonesAgregar=document.querySelectorAll(".producto-agregar");
-
-bonotonesAgregar.forEach(boton => {
-    boton.addEventListener("click", agregarAlCarrito);
-
-})
-
-}
-
-
-// en proceso // // veriado y funcional
-
-const productos = [];
-const productosEnCarrito = [];
-
-async function getAllProductSummaries2() {
-  try {
-    const response = await fetch('http://localhost:8080/products/summary2');
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
-    const data = await response.json();
-    console.log('All Product Summaries:', data);
-    return data;
-  } catch (error) {
-    console.error('Error fetching all product summaries:', error);
-    return [];
-  }
-}
-
-async function initializeProductos() {
-  const data = await getAllProductSummaries2();
-  productos.push(...data);
-}
-
+// Función para agregar productos al carrito
 function agregarAlCarrito(e) {
-  const idBoton = parseInt(e.currentTarget.id, 10);
-  console.log(idBoton);
-  let productoAgregado = [];
-  
-  productos.forEach(product => {
-    if (product.id === idBoton) {
-      productoAgregado.push(product);
-      console.log(product);
-    }
-  });
+    const idBoton = parseInt(e.currentTarget.id, 10);
+    console.log(`ID del botón: ${idBoton}`);
 
-  console.log(productoAgregado);
+    const productoAgregadoEnClick = productos.find(producto => producto.id === idBoton);
+    if (productoAgregadoEnClick) {
+        productoAgregado.push(productoAgregadoEnClick);
+        console.log(`Producto agregado:`, productoAgregadoEnClick);
+    } else {
+        console.error(`Producto con ID ${idBoton} no encontrado`);
+    }
+
+    console.log(`Productos en el carrito:`, productoAgregado);
 }
 
-// Llama a initializeProductos para cargar los productos antes de cualquier operación
-initializeProductos().then(() => {
-  // Aquí podrías agregar eventos a los botones que llamen a agregarAlCarrito, por ejemplo:
-  // document.querySelector('button').addEventListener('click', agregarAlCarrito);
-});
+// Función para inicializar los productos al cargar la página
+async function initializeProductos() {
+    await cargarTodosLosProductos(); // Inicialmente cargar todos los productos
+}
 
+initializeProductos(); // Llamar a la inicialización al cargar la página
 
   
     
