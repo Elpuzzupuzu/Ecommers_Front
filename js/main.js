@@ -31,20 +31,7 @@ async function getProductSummariesByCategory(categoryName) {
 }
 ////-----------------//////
 
-async function getAllProductSummaries2() {
-    try {
-      const response = await fetch('http://localhost:8080/products/summary2');
-      if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log('All Product Summaries:', data);
-      return data;
-  } catch (error) {
-      console.error('Error fetching all product summaries:', error);
-      return [];
-  }
-}
+
 
 
 
@@ -195,15 +182,52 @@ bonotonesAgregar.forEach(boton => {
 }
 
 
-// en proceso //
+// en proceso // // veriado y funcional
 
-let productos=getAllProductSummaries2();
-const productosEnCarrito=[];
+const productos = [];
+const productosEnCarrito = [];
 
-function agregarAlCarrito(e){
-
-    const idBoton=e.currentTarget.id;
-    const productoAgregado = (producto => producto.id === idBoton);
-    productosEnCarrito.push(productoAgregado);
-    console.log(productosEnCarrito);
+async function getAllProductSummaries2() {
+  try {
+    const response = await fetch('http://localhost:8080/products/summary2');
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log('All Product Summaries:', data);
+    return data;
+  } catch (error) {
+    console.error('Error fetching all product summaries:', error);
+    return [];
+  }
 }
+
+async function initializeProductos() {
+  const data = await getAllProductSummaries2();
+  productos.push(...data);
+}
+
+function agregarAlCarrito(e) {
+  const idBoton = parseInt(e.currentTarget.id, 10);
+  console.log(idBoton);
+  let productoAgregado = [];
+  
+  productos.forEach(product => {
+    if (product.id === idBoton) {
+      productoAgregado.push(product);
+      console.log(product);
+    }
+  });
+
+  console.log(productoAgregado);
+}
+
+// Llama a initializeProductos para cargar los productos antes de cualquier operación
+initializeProductos().then(() => {
+  // Aquí podrías agregar eventos a los botones que llamen a agregarAlCarrito, por ejemplo:
+  // document.querySelector('button').addEventListener('click', agregarAlCarrito);
+});
+
+
+  
+    
