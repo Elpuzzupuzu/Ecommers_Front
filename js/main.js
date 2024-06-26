@@ -38,6 +38,7 @@ let productoAgregado = [];  // Variable global para almacenar productos agregado
 document.addEventListener("DOMContentLoaded", async function() {
     try {
         await initializeProductos();
+        await cargarTodosLosProductos();  // Cargar todos los productos al iniciar la página
         actualizarBotonesAgregar();
     } catch (error) {
         console.error('Error initializing products:', error);
@@ -151,8 +152,17 @@ function agregarAlCarrito(e) {
 
     const productoAgregadoEnClick = productos.find(producto => producto.id === idBoton);
     if (productoAgregadoEnClick) {
-        productoAgregado.push(productoAgregadoEnClick);
-        console.log(`Producto agregado:`, productoAgregadoEnClick);
+        const productoEnCarrito = productoAgregado.find(producto => producto.id === idBoton);
+        if (productoEnCarrito) {
+            // Si el producto ya está en el carrito, aumentar la cantidad vendida
+            productoEnCarrito.sold++;
+        } else {
+            // Si el producto no está en el carrito, agregarlo con la cantidad vendida inicial de 1
+            productoAgregadoEnClick.sold = 1;
+            productoAgregado.push(productoAgregadoEnClick);
+            console.log(`Producto agregado:`, productoAgregadoEnClick);
+        }
+        console.log(productoAgregado);
     } else {
         console.error(`Producto con ID ${idBoton} no encontrado`);
     }
@@ -160,12 +170,15 @@ function agregarAlCarrito(e) {
     console.log(`Productos en el carrito:`, productoAgregado);
 }
 
-// Función para inicializar los productos al cargar la página
+// Función de inicialización (debe estar definida en algún lugar de tu código)
 async function initializeProductos() {
-    await cargarTodosLosProductos(); // Inicialmente cargar todos los productos
+    try {
+        const products = await getAllProductSummaries();
+        productos.push(...products);
+        mostrarProductos(products);
+    } catch (error) {
+        console.error('Error initializing products:', error);
+    }
 }
 
-initializeProductos(); // Llamar a la inicialización al cargar la página
-
-  
     
