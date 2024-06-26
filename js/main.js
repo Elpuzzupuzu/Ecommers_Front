@@ -15,8 +15,8 @@ async function getProductSummariesByCategory(categoryName) {
 }
 
 // Función para obtener todos los productos resumidos
-async function getAllProductSummaries() {
-    try {
+   async function getAllProductSummaries() {
+      try {
         const response = await fetch('http://localhost:8080/products/summary');
         if (!response.ok) {
             throw new Error(`Error: ${response.status}`);
@@ -29,6 +29,50 @@ async function getAllProductSummaries() {
         return [];
     }
 }
+////-----------------//////
+
+async function getAllProductSummaries2() {
+    try {
+      const response = await fetch('http://localhost:8080/products/summary2');
+      if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log('All Product Summaries:', data);
+      return data;
+  } catch (error) {
+      console.error('Error fetching all product summaries:', error);
+      return [];
+  }
+}
+
+
+
+
+
+
+
+
+///test 
+
+// Variables globales
+  // Paraonst productosEnCarrito = []; almacenar todos los productos obtenidos
+ // Para almacenar productos agregados al carrito
+
+// Función para cargar todos los productos
+
+
+
+
+
+
+
+
+
+
+
+
+///test 
 
 // Función para cargar los productos después de que el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", function() {
@@ -111,17 +155,55 @@ function mostrarProductos(products) {
         div.innerHTML = `
             <img class="producto-imagen" src="${product.img}" alt="">
             <div class="producto-detalles">
+
+                <p class="producto-id"> codigo: ${product.id}</p>
                 <h3 class="producto-titulo">${product.name}</h3>
                 <p class="producto-precio">${product.description}</p>
                 <p class="producto-precio">${product.price}</p>
-                <button class="producto-agregar">Agregar</button>
+                <button class="producto-agregar" id="${product.id}">Agregar</button>
             </div>
         `;
         contenedorProductos.appendChild(div);
     });
+
+    actualizarBotonesAgregar();
+    console.log(bonotonesAgregar);
 }
 
 // Función para cargar los productos iniciales (todos los productos)
 async function cargarProductos() {
     await cargarTodosLosProductos();
+}
+
+
+
+
+/// en proceso de pruebas
+
+let bonotonesAgregar= document.querySelectorAll(".producto-agregar");
+console.log(bonotonesAgregar);
+
+
+function actualizarBotonesAgregar(){
+bonotonesAgregar=document.querySelectorAll(".producto-agregar");
+
+bonotonesAgregar.forEach(boton => {
+    boton.addEventListener("click", agregarAlCarrito);
+
+})
+
+}
+
+
+// en proceso //
+
+let productos=getAllProductSummaries2();
+const productosEnCarrito=[];
+
+function agregarAlCarrito(e){
+
+    const idBoton=e.currentTarget.id;
+    const productoAgregado = (producto => producto.id === idBoton);
+    productosEnCarrito.push(productoAgregado);
+    console.log(productosEnCarrito);
 }
