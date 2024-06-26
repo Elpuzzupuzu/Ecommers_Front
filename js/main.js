@@ -49,6 +49,9 @@ document.addEventListener("DOMContentLoaded", function() {
             // Obtener el categoryName del id del botón
             const categoryName = this.id;
 
+            // Actualizar el título principal según la categoría seleccionada
+            actualizarTituloPrincipal(categoryName);
+
             // Cargar productos por categoría
             if (categoryName === 'todos') {
                 await cargarTodosLosProductos();
@@ -58,6 +61,16 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
+// Función para actualizar el título principal según la categoría seleccionada
+function actualizarTituloPrincipal(categoryName) {
+    const tituloPrincipal = document.querySelector(".titulo-principal");
+    if (categoryName === 'todos') {
+        tituloPrincipal.textContent = 'Todos los productos';
+    } else {
+        tituloPrincipal.textContent = `Productos de ${categoryName}`;
+    }
+}
 
 // Función para cargar todos los productos
 async function cargarTodosLosProductos() {
