@@ -30,9 +30,17 @@ async function getAllProductSummaries() {
     }
 }
 
+
 // Variables globales
 const productos = [];
 let productoAgregado = [];  // Variable global para almacenar productos agregados al carrito
+const numerito=document.querySelector("#numerito");
+
+
+
+
+
+
 
 // Función para cargar los productos después de que el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", async function() {
@@ -166,9 +174,15 @@ function agregarAlCarrito(e) {
     } else {
         console.error(`Producto con ID ${idBoton} no encontrado`);
     }
+    actualizarNumerito();
 
     console.log(`Productos en el carrito:`, productoAgregado);
 }
+
+
+
+
+///-------------------------------------------------///
 
 // Función de inicialización (debe estar definida en algún lugar de tu código)
 async function initializeProductos() {
@@ -179,6 +193,13 @@ async function initializeProductos() {
     } catch (error) {
         console.error('Error initializing products:', error);
     }
+}
+
+function actualizarNumerito(){
+    let nuevoNumerito=productoAgregado.reduce((acc,producto)=> acc+producto.sold,0);
+    
+    numerito.innerText=nuevoNumerito;
+
 }
 
     
