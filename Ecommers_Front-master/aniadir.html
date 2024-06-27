@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="icon" href="./img/Logpbueno.jpeg">
+    <title>Cuenta</title>
+</head>
+<body>
+    <div class="wrapper">
+        <aside>
+            <header>
+                <h1 class="logo">Mimitos Shop</h1>
+            </header>
+            <nav>
+                <ul>
+                    <li><a class="boton-menu boton-volver" href="./index.html"><i class="bi bi-arrow-return-left"></i>seguir comprando</a></li>
+                    <li><a class="boton-menu boton-carrito active" href="aniadir.html">Añadir Producto</a></li>
+                </ul>
+            </nav>
+            <footer>
+                <p class="texto-footer">© 2024 Mimitos Shop</p>
+            </footer>
+        </aside>
+        <main>
+            <div class="container">
+                <div class="profile-container">
+                    <div class="profile-content">
+                        <div class="profile-header">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="Profile Image" class="profile-img">
+                            <button class="add-photo-btn">Añadir otra imagen</button>
+                        </div>
+                        <form class="profile-form">
+                            <div class="form-group">
+                                <label for="product_name">Nombre del Producto</label>
+                                <input type="text" id="product_name" placeholder="Nombre del Producto" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product_description">Descripción del Producto</label>
+                                <textarea id="product_description" rows="4" placeholder="Descripción del Producto" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="product_price">Precio del Producto</label>
+                                <input type="text" id="product_price" placeholder="Precio del Producto" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product_quantity">Cantidad de Producto</label>
+                                <input type="number" id="product_quantity" placeholder="Cantidad de Producto" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product_category">Categoría</label>
+                                <div class="category-container">
+                                    <select id="product_category" required>
+                                        <option value="" disabled selected>Seleccione una categoría</option>
+                                        <option value="hogarycocina">Hogar y Concina</option>
+                                        <option value="LimpiezayOrganizacion">Limpieza y Organizacion</option>
+                                        <option value="BinestarPersonal">Binestar Personal</option>
+                                        <option value="JardinyExteriores">Jardin y Exteriores</option>
+                                        <option value="ElectrodomesticosyT">Electrodomesticos y Tecnologia</option>
+                                        <option value="DecoracionyAccesorioa">Decoracion y Accesorios</option>
+                                        <option value="CuidadoDelAutmovil">Cuidado Del Autmovil</option>
+                                    </select>
+                                    <button type="button" class="add-category-btn">Añadir Nueva</button>
+                                </div>
+                                <input type="text" id="new_category" class="new-category-input" placeholder="Nueva categoría" style="display: none;">
+                            </div>
+                            <div class="form-buttons">
+                                <button type="button" class="add-product-btn">Añadir Producto</button>
+                                <button type="submit" class="update-btn">Actualizar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.querySelector('.add-product-btn').addEventListener('click', function() {
+            window.location.href = 'aniadir.html';
+        });
+
+        document.querySelector('.profile-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Formulario enviado');
+        });
+
+        document.querySelector('.add-category-btn').addEventListener('click', function() {
+            const newCategoryInput = document.querySelector('.new-category-input');
+            if (newCategoryInput.style.display === 'none') {
+                newCategoryInput.style.display = 'block';
+                newCategoryInput.focus();
+            } else {
+                newCategoryInput.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

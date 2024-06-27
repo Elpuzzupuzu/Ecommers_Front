@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/CreaCue.css">
+    <link rel="icon" href="./img/Logpbueno.jpeg">
+    <title>Crear Nuevo Usuario</title>
+</head>
+<body>
+    <div class="wrapper">
+        <main class="form-container">
+            <h2 class="form-title">Crear Nuevo Usuario</h2>
+            <form class="profile-form" id="crearUsuarioForm" action="./index.html">
+                <div class="form-group">
+                    <label for="firstName">Nombre</label>
+                            <input type="text" id="firstName" class="form-input" placeholder="Nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Apellido</label>
+                    <input type="text" id="lastName" class="form-input" placeholder="Apellido" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" class="form-input" placeholder="Correo electrónico" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" class="form-input" placeholder="Contraseña" required>
+                </div>
+                <div class="form-group">
+                    <label for="birthdate">Fecha de nacimiento</label>
+                    <input type="date" id="birthdate" class="form-input" required>
+                </div>
+                <button type="submit" class="submit-btn">Crear Usuario</button>
+            </form>
+        </main>
+    </div>
+    <script>
+        document.getElementById('crearUsuarioForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const birthdate = document.getElementById('birthdate').value;
+
+            // Validar que todos los campos estén completos
+            if (!firstName || !lastName || !email || !password || !birthdate) {
+                alert('Por favor completa todos los campos.');
+                return;
+            }
+
+            // Aquí puedes agregar la lógica para enviar los datos del formulario a tu backend o hacer lo que necesites
+            console.log('Submit:', { firstName, lastName, email, password, birthdate });
+
+            // Limpiar los campos del formulario después de enviarlos (simulado)
+            document.getElementById('firstName').value = '';
+            document.getElementById('lastName').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('birthdate').value = '';
+
+            // Redirigir a la página index.html después de enviar el formulario (simulado)
+            window.location.href = './index.html';
+        });
+    </script>
+</body>
+</html>
